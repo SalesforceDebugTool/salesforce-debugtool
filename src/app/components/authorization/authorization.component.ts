@@ -15,11 +15,11 @@ export class AuthorizationComponent implements OnInit {
   }
 
   PRDLogin():void{
-    window.location.replace('https://login.salesforce.com/services/oauth2/authorize?response_type=token&client_id=3MVG9W4cDaFe_AanyCnLpRoUX9F4eEd5Uv7MEkfClluPLgy6uiSkzf4FJO_Cr.2IPzRFMchEMnwIXM059NTmk&redirect_uri='+window.location.origin+'&state=mystate');
+    window.location.replace('https://login.salesforce.com/services/oauth2/authorize?response_type=token&client_id=3MVG9cHH2bfKACZZQA1CTUaBxcVq7LqNuaBjebe2JAgp45yVcYsQOyfuqdtY.NMubnAKoEL_huQns.Oj3G7kO&redirect_uri='+window.location.origin+'&state=mystate');
   }
 
   SBLogin():void{
-    window.location.replace('https://test.salesforce.com/services/oauth2/authorize?response_type=token&client_id=3MVG9W4cDaFe_AanyCnLpRoUX9F4eEd5Uv7MEkfClluPLgy6uiSkzf4FJO_Cr.2IPzRFMchEMnwIXM059NTmk&redirect_uri='+window.location.origin+'&state=mystate');
+    window.location.replace('https://test.salesforce.com/services/oauth2/authorize?response_type=token&client_id=3MVG9cHH2bfKACZZQA1CTUaBxcVq7LqNuaBjebe2JAgp45yVcYsQOyfuqdtY.NMubnAKoEL_huQns.Oj3G7kO&redirect_uri='+window.location.origin+'&state=mystate');
   }
 
 }
