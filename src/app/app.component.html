@@ -1,0 +1,59 @@
+<div>
+  <router-outlet></router-outlet> 
+  <app-authorization *ngIf="!token; else elseBlock"></app-authorization>
+  <ng-template #elseBlock>
+    <div *ngIf="User && Org  " class="header">
+      <mat-grid-list cols="12" rowHeight="70px" >
+
+        <mat-grid-tile colspan="1" >
+          <span class="home">
+            <a href="tags/tag_base.asp" title="DebugTool">
+              <button mat-mini-fab color="primary" aria-label="DebugTool">
+                <mat-icon>home</mat-icon>
+              </button>
+            </a>&nbsp;
+            <a target="_blank" rel="noopener noreferrer" href="{{fronDorLink}}"><img title="Saleforce Home" style="    width: 50px;
+            bottom: -20px;
+            position: relative;"
+            src="assets/img/salesforce_Icon.svg">
+            </a>    
+          </span>
+          
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="11">
+          <h3>
+            <span class="right-header">
+              logged as:&nbsp;   {{User.username}} &nbsp;| &nbsp;   {{credentials["org"]}} <br> {{Org.Name}} | <span class="IsSandbox-{{Org.IsSandbox}}"></span>
+            </span>
+          </h3>
+        </mat-grid-tile>
+
+        <mat-grid-tile >
+          <h3 class="userName">
+            Hi: {{User.name}}
+          </h3>
+        </mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+      </mat-grid-list>
+      
+    </div>
+    
+    <br/>
+    <div *ngIf="GMToffSet && credentials" class="inerAPP">
+     
+      <mat-tab-group>
+        <mat-tab label="Trace Flags">
+           <app-trace-flag-table [GMToffSet]="GMToffSet" [credentials]="credentials" ></app-trace-flag-table> 
+        </mat-tab>
+        <mat-tab label="Debug Logs">
+           <app-debug-table [GMToffSet]="GMToffSet" [credentials]="credentials"></app-debug-table>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+   
+  </ng-template>
+
+  
+  
+</div>

@@ -1,0 +1,113 @@
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+.up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+  }
+  
+  .down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    margin-left:10px;
+    cursor: pointer;
+  }
+  table{
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+   td,  th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  tr:nth-child(even){background-color: #f2f2f2;}
+  tr:hover {background-color: #ddd;}
+  th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    
+    background-color: #4CAF50;
+    color: white;
+  }
+
+ 
+/*div#statusPanel-panel.statusPanel {
+  background: red !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+}*/
+
+
+.spinner-wrapper {
+  display: flex;
+
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  
+  background-color: #ffc107!important;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 80%;
+
+  width: 300px;
+  margin-left: -154px;
+
+  
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #ffc107 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.info-mark {
+  color: lightblue;
+  font-family: emoji;
+  font-weight: bold;
+}
+
+.dateFilter-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.dateFilter-radio-button {
+  margin: 5px;
+}
+#datePickerIput{
+  width: 300px;
+  text-align: center;
+  height: 44px;
+  position: relative;
+  top: -7px;
+}

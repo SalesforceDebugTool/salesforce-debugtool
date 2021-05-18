@@ -1,0 +1,28 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+.header{
+  background: #1abc9c;
+    color: white;
+    font-size: 30px;
+    padding: 0 10px 10px 10px;
+
+   
+}
+.right-header { 
+  text-align: right;
+  position: absolute;
+  right: 0;
+  top: 10px
+    
+  }
+
+  .inerAPP{
+    padding:20px;
+}
+.IsSandbox-true::after {
+  content: " Sandbox";
+}
+
+.IsSandbox-false::after {
+  content: " PRD";
+}

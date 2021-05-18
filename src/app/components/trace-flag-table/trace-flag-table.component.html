@@ -1,0 +1,156 @@
+<div>
+    <toaster-container [toasterconfig]="config"></toaster-container>  
+    <!--<ul *ngFor="let traceFlag of tracFlags">
+        <li>{{traceFlag.TracedEntity.Name}}</li>
+    </ul>-->
+
+
+
+    <br>
+    <br>
+    
+    
+    <div  class="spinner-wrapper">
+        
+        <!--<button (click)="showCreateNew=true">New</button>-->
+        <button mat-fab style="background-color: cadetblue;height: 70px; width: 70px;top: -12px;" (click)="showCreateNew=!showCreateNew" title="new traceflag"><mat-icon>plus_one</mat-icon></button>
+        &nbsp;&nbsp;
+        <button mat-fab color="primary"(click)="refreshTFromServer()"title="Refresh"> <mat-icon>refresh</mat-icon></button>
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        <div class="example-button-container">
+            <button title="Delete All"  (click)="deleteAllTraceFlags()" mat-fab color="accent" aria-label="Example icon button with a delete icon">
+              <mat-icon>delete</mat-icon>
+             <span *ngIf="traceFlags" class="deleteBTN"  >-{{traceFlags.length}} </span> 
+            </button>
+          </div>
+        <!--<button  (click)="deleteAllTraceFlags()" >Delete all</button>-->
+        <mat-spinner *ngIf="showDeleteAllSpinner" [diameter]="20"></mat-spinner>
+        &nbsp;
+        <div class="example-button-container">
+            <button title="Delete Selected"  (click)="deleteSelected()" mat-fab color="warn" aria-label="Example icon button with a delete icon">
+              <mat-icon>delete</mat-icon>
+             <span class="deleteBTN"  >-{{selected}} </span> 
+            </button>
+          </div>  
+        <!--<button  (click)="deleteSelected()" >Delete Selected</button>-->
+        <mat-spinner *ngIf="showDeleteSelectedSpinner" [diameter]="20"></mat-spinner>
+        &nbsp;&nbsp;
+        <span class="tooltip ">
+            <span class="tooltip info-mark" >&#9432;</span>
+            
+            <span class="tooltiptext ">Actions will apply to Displayed only!</span>
+        </span>
+        
+    </div>
+    <br>
+   
+    <div id="myModal"  class="myModal" *ngIf="showCreateNew">
+        <div (click)="showCreateNew=false" class="modalFake"></div>
+        <div class="innerModal">
+            <div class="modal-header">
+                <span (click)="showCreateNew=false"  class="close">&times;</span>
+                <h2>Ceate new TraceFlag</h2>
+            </div>
+              <div class="modal-body">
+                
+                <mat-grid-list cols="3" rowHeight="2:1">
+                    <mat-grid-tile>
+                       
+                        <form class="">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Search for User</mat-label>  
+                            <input required (keyup)="searchForUser(Uname.value)" #Uname type="text"
+                                   placeholder="Search for User"
+                                   aria-label="userName"
+                                   matInput
+                                   [formControl]="myControl"
+                                   [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                              <mat-option *ngFor="let user of users" [value]="user.Name">
+                                {{user.Name}}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                        </form>    
+                    </mat-grid-tile>
+
+                    <mat-grid-tile>
+                        
+                        <mat-radio-group #registration aria-label="registration">
+                            
+                            <mat-radio-button #Hour checked=checked value="Hour">One Hour registeration</mat-radio-button><br>
+                            <mat-radio-button value="Day">One Day registeration</mat-radio-button>
+                        </mat-radio-group>    
+                    </mat-grid-tile>
+
+                    <mat-grid-tile>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select LogLevel</mat-label>   
+                        <mat-select [(value)]="selectedLogLevel" [formControl]="logLevelForm" required >
+                            
+                            <mat-option  *ngFor="let LV of logLevels" [value]="LV.DeveloperName" > {{LV.DeveloperName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    </mat-grid-tile>
+                   
+                  </mat-grid-list>
+                
+         
+              
+                
+              </div>
+              <div class="modal-footer">
+                <button (click)="createNew(Hour.checked,Uname.value)" mat-raised-button color="primary">Save</button>
+              </div>
+        </div>
+        
+
+        
+    </div>
+
+    <section *ngIf="Filter && Filter.filters" class="filter-section" >
+        <span class="filter-list-section">
+          <mat-checkbox class="example-margin"
+                        [checked]="allchecked"
+                        [indeterminate]="someComplete()"
+                        (change)="setAll($event.checked)">
+            {{Filter.name}} ({{Filter.count}})
+          </mat-checkbox>
+        </span>
+        <span class="example-list-section">
+          <ul>
+            <li *ngFor="let filter of Filter.filters">
+              <mat-checkbox [(ngModel)]="filter.checked"
+                            [color]="filter.color"
+                            (ngModelChange)="updateAllComplete()"
+                            (change)="filterChangedHandler(filter.name)">
+                {{filter.name}} ({{filter.count}})
+              </mat-checkbox>
+            </li>
+          </ul>
+        </span>
+      </section>
+    <table>
+            <thead>
+                <tr>
+                    <th style="width: 75px;" class="cenetr"> <span style="position:absolute;left: 5px;line-height: 1;">({{selected}})</span> <input  [checked]="isSelectAll" (change)="isSelectAll = !isSelectAll; selectAll();" type="checkbox" ></th>
+                    
+                    <th>TracedEntity</th>
+                    <th>DebugLevel</th>
+                    <th>StartDate</th>
+                    <th>ExpirationDate</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody  *ngFor="let traceFlag of traceFlags">
+                    <tr   *ngIf="logLevels != undefined && traceFlag['display']" app-trace-flag-item [logLevels]="logLevels" (onSelected)="onSelectedHandler()" (needRefresh)="refreshTFromServer()" [GMToffSet]="GMToffSet" (onDeleteOne)="deleteOneHandler()" [credentials]="credentials"  [traceFlag]="traceFlag"></tr>
+            </tbody>
+        </table>
+    
+   
+
+</div>
+

@@ -1,0 +1,44 @@
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+.Live{
+    color:yellowgreen;
+    background-color: yellowgreen;
+}
+.Future{
+    color:purple;
+    background-color: purple;
+}
+.Expired{
+    color:gray;
+    background-color: gray;
+}
+td{
+    padding: 5px;
+}
+.center{
+    text-align: center;
+}
+
+.circle{
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    border: solid 0.01px darkgray;
+    margin-left: 20px;
+    margin-right: 9px;
+    float: left;
+}
+@keyframes blink {
+    0%, 100% { opacity: 0; } /* more concise! */
+    50% { opacity: 1; }
+  }
+  .Live {
+    animation: blink 3s infinite ;
+  } 
+/*.Live {
+    border:solid 0.3px;
+    opacity: .25;
+    -webkit-animation: up-right 1s infinite;
+    -moz-animation: up-right 1s infinite;
+    -o-animation: up-right 1s infinite;
+    animation: up-right 1s infinite;
+}*/

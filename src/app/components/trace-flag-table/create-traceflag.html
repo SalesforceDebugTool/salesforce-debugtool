@@ -1,0 +1,26 @@
+<div mat-dialog-content>
+
+    <label for="Uname">User Name:</label>
+    <!--<input #Uname type="text" id="Uname" name="Uname"> &nbsp;&nbsp;-->
+    <form class="example-form">
+    <mat-form-field class="example-full-width">
+        <input (keyup)="searchForUser(Uname.value)" #Uname type="text"
+                placeholder="Search"
+                aria-label="userName"
+                matInput
+                [formControl]="DialogControl"
+                [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let user of users" [value]="user.Name">
+            {{user.Name}}
+        </mat-option>
+        </mat-autocomplete>
+    </mat-form-field> 
+    <label for="One-Hour">registration: </label>
+    <mat-radio-group #registration aria-label="registration">
+        <mat-radio-button value="Hour">One Hour</mat-radio-button>&nbsp;
+        <mat-radio-button value="Day">One Day</mat-radio-button>
+        </mat-radio-group>
+    </form>
+    <button  mat-raised-button color="primary">Save</button>
+</div>

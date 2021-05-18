@@ -1,0 +1,162 @@
+
+
+
+<div *ngIf="Debugs && Debugs.length > 0; else elseBlock">
+    <toaster-container [toasterconfig]="config"></toaster-container>     
+    <!--<ul *ngFor="let traceFlag of tracFlags">
+        <li>{{traceFlag.TracedEntity.Name}}</li>
+    </ul>-->
+    
+<br/>
+<br/>
+  
+    <h2> Displaying : {{logDisplayCount}} of {{Debugs.length}} &nbsp;&nbsp;
+        <button  (click)="refreshLogsFromServer()" >Refrersh </button>
+        <mat-spinner  *ngIf="showRefrershSpinner" [diameter]="20"></mat-spinner>
+    </h2>
+    <h3>Selected: {{selectedLength}}</h3>
+   
+    
+          
+    <div  class="spinner-wrapper">
+        <mat-spinner *ngIf="showsearchInFilesSpinner" [diameter]="20"></mat-spinner>
+        
+        <label for="searchInFiles" >Search in files:</label>
+        <input style="    width:200px !important ;border: solid 1px;" #searchInFilesInput id="searchInFiles" matInput (keyup)="searchInFiles($event.target.value)" [(value)]="globalSearchValue"  placeholder="Search" />
+        <input (change)="hideUnmatched = !hideUnmatched" [checked]="hideUnmatched" type="checkbox" />hide Unmatched
+        &nbsp;&nbsp;
+        <span class="tooltip ">
+            <span class="tooltip info-mark" >&#9432;</span>
+            
+            <span class="tooltiptext ">for more efficiency filter before searching!</span>
+        </span>
+    </div>
+    
+      
+      
+        <br/><br/>
+        <div class="filtersCon">
+            <mat-form-field appearance="fill" >
+                <mat-label>Filter By Status:</mat-label>
+                <mat-select  [(value)]="selectedStatuses" [formControl]="StatusForm" multiple panelClass="statusPanel" id="statusPanel" (selectionChange)="statusSelectionChange($event.value)" >
+                    
+                    <mat-option  *ngFor="let Status of Statuses" [value]="Status.Status">({{Status.Count}}) {{Status.Status}}</mat-option>
+                </mat-select>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="fill" >
+                    <mat-label>Filter By user name:</mat-label>   
+                <mat-select [(value)]="selectedUsers" [formControl]="UserForm" panelClass="userPanel"  multiple (selectionChange)="userSelectionChange($event.value)">
+                    <mat-option *ngFor="let user of Users" [value]="user.User"  >({{user.Count}}) {{user.User}}</mat-option>
+                </mat-select>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="fill">
+                    <mat-label>Filter By Application:</mat-label>   
+                <mat-select [(value)]="selectedApplications" [formControl]="ApplicationForm" multiple (selectionChange)="applicationSelectionChange($event.value)">
+                    <mat-option *ngFor="let Application of Applications" [value]="Application.Application">({{Application.Count}}) {{Application.Application}}</mat-option>
+                </mat-select>
+            </mat-form-field>&nbsp;
+            <mat-form-field appearance="fill">
+                    <mat-label>Filter By Operation:</mat-label>   
+                <mat-select [(value)]="selectedOperation" [formControl]="operationForm" multiple (selectionChange)="operationSelectionChange($event.value)">
+                    
+                    <mat-option  *ngFor="let Operation of Operations" [value]="Operation.Operation" >({{Operation.Count}})  {{Operation.Operation}}</mat-option>
+                </mat-select>
+            </mat-form-field>&nbsp;
+        
+            <mat-form-field appearance="fill">
+                <mat-label>Filter By Date:</mat-label>   
+                <mat-select [(value)]="selectedDateFilter" [formControl]="dateFiletreForm"  (selectionChange)="onDateFilterChanged($event.value)">
+                    <mat-option  value="None" >None</mat-option>
+                    <mat-option  value="Last-hour" >Last hour</mat-option>
+                    <mat-option  value="Today" >Today</mat-option>
+                    <mat-option  value="This-Week" >This-Week</mat-option>
+                    <mat-option  value="Erlier-than-today" >Erlier than today</mat-option>
+                    <mat-option  value="Erlier-than-This-Week" >Erlier than This-Week</mat-option>
+                    <mat-option  value="Choose-date" >Choose date</mat-option>
+                </mat-select>
+            </mat-form-field>&nbsp;
+            <span *ngIf="selectedDateFilter=='Choose-date'">
+                <span>
+                    <label >
+                        <input id="datePickerIput" placeholder="Choose dates" (ngModelChange)="selectedMomentsChanged($event)" [(ngModel)]="selectedMoments" [owlDateTimeTrigger]="dt10" [owlDateTime]="dt10"
+                               [selectMode]="'range'">
+                        <owl-date-time #dt10></owl-date-time>
+                    </label>
+                </span>
+                
+            </span>
+        
+            &nbsp;
+            
+            <button  (click)="resetfilters()" >reset filters</button>
+        </div>
+      
+      <br/>
+      
+      
+      <div class="spinner-wrapper">
+        <button  (click)="downloadSelected()" >DownLoad Selected</button>
+        &nbsp;   
+        <button  (click)="downLoadZip()" >DownLoad all</button>  
+        <mat-spinner *ngIf="showDownLoadAllSpinner" [diameter]="20"></mat-spinner>
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        <button  (click)="deleteAllLogs()" >Delete all</button>
+        <mat-spinner *ngIf="showDeleteAllSpinner" [diameter]="20"></mat-spinner>
+        &nbsp;
+
+        <button  (click)="deleteSelected()" >Delete Selected</button>
+        <mat-spinner *ngIf="showDeleteSelectedSpinner" [diameter]="20"></mat-spinner>
+        &nbsp;&nbsp;
+        <span class="tooltip ">
+            <span class="tooltip info-mark" >&#9432;</span>
+            
+            <span class="tooltiptext ">Actions will apply to Displayed only!</span>
+        </span>
+        
+      </div>
+      
+      
+     
+      
+
+      
+      <br/>
+      <br/>
+        
+      <table>
+                <thead>
+                    <tr>
+                        <th><input (change)="isSelectAll = !isSelectAll;selectAll()" [checked]="isSelectAll" type="checkbox" /> </th>
+                        <th> </th>
+                        <th> </th>
+                        <th> </th>
+                        <th> </th>
+                        <th>Download-Status</th>
+                        <th>User Name</th>
+                        <th>StartTime<i *ngIf="!DescOrder" (click)="reOrderLogs('desc')" class="arrow up"></i><i *ngIf="DescOrder" (click)="reOrderLogs('asc')" class="arrow down"></i></th>
+                        <th>Request</th>
+                        <th>Status</th>
+                        <th>LogLength</th>
+                        <th>Duration</th>
+                        <th>Application</th>
+                        <th>Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container  *ngFor="let Debug of Debugs">
+                      
+                        <tr  app-debug-item    [GMToffSet]="GMToffSet" (onSelectedOne)="selectOneHandler()" (onItemDeleted)="deleteOneNotify($event)" *ngIf="  Debug['machFilters'] && (!hideUnmatched || Debug['match']  || Debug['textFileStatuse'] !== 'done')" [credentials]="credentials" [logDisplayCount]="logDisplayCount" [hideUnmatched]='hideUnmatched' [Debug]="Debug"></tr>
+                    </ng-container >
+                       
+                </tbody>
+            </table>
+   
+
+</div>
+<ng-template #elseBlock>
+    <br/><br/>
+    <h1>No logs to display please refresh:</h1>
+    <button  (click)="refreshLogsFromServer()" >Refrersh</button>
+</ng-template>

@@ -1,0 +1,44 @@
+  
+    <td class="center" >
+        <input  [checked]="traceFlag['selected']" (change)="traceFlag['selected'] = !traceFlag['selected']; selectChanged();" type="checkbox" >&nbsp;&nbsp;
+        
+        
+    </td>
+    <td style="line-height: 1;width: 180px;" class=""title="{{traceFlag['Status']}}"><span class="circle {{traceFlag['Status']}}"></span>{{traceFlag.TracedEntity.Name}}</td>
+   
+    <td class="center">
+        <mat-form-field appearance="fill">
+            <mat-label>Select LogLevel</mat-label>   
+        <mat-select [(ngModel)]="traceFlag.DebugLevel.DeveloperName" [formControl]="logLevelForm" required >
+            
+            <mat-option  *ngFor="let LV of logLevels" [value]="LV.DeveloperName" > {{LV.DeveloperName}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    </td>
+    
+    <!--<td class="center">{{traceFlag.DebugLevel.DeveloperName}}</td>-->
+    <!--<td>{{traceFlag.ExpirationDate}}</td>-->
+    
+    <td class="center">
+        <input [owlDateTimeTrigger]="StartDate" [owlDateTime]="StartDate"
+           [(ngModel)]="selectedMoments"
+           [selectMode]="'rangeFrom'">
+        <owl-date-time #StartDate></owl-date-time>
+    </td>
+    <td class="center">
+        <input [owlDateTimeTrigger]="ExpirationDate" [owlDateTime]="ExpirationDate"
+           [(ngModel)]="selectedMoments"
+           [selectMode]="'rangeTo'">
+        <owl-date-time #ExpirationDate></owl-date-time>
+        
+    </td>
+    <td style="float: right;">
+        <span *ngIf="traceFlag['Status']=='Expired'"> <button (click)="TFextention(24)"  color="accent" mat-mini-fab  title="One Day extention">+1D</button>&nbsp; <button (click)="TFextention(1)"  color="accent" mat-mini-fab title="One Hour extention" >+1H</button> &nbsp; </span>
+        <button  (click)="updateTF()" mat-raised-button color="primary">Update</button>&nbsp;
+        <button mat-mini-fab color="warn"  (click)="deleteTraceFlag()" title="Delete" ><mat-icon>delete</mat-icon>
+        </button>
+    </td>
+    <toaster-container [toasterconfig]="config"></toaster-container> 
+    <!--<td>{{traceFlag.StartDate}}</td>-->
+    
+

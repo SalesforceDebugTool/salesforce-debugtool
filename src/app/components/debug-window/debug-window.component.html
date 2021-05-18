@@ -1,0 +1,100 @@
+<div [innerHtml]="myStyle" ></div>
+<span    id="setscrol"  ></span>
+<div id="arrows">
+    <div class="arrow arrow-up"(click)="goUp()" >	&#8607;</div>
+    <div class="arrow arrow-down" (click)="goDown()">&#8609;</div>
+    
+
+</div> 
+<div class="logTableCon">
+    
+    <table class="logTable" style="width:100%;" id="logTable">
+        <tr class="header">
+            <h2>log Details:</h2>
+        </tr>
+        <tr>
+            <td >LogId: {{Debug.Id}}</td>
+            <td >User Name: {{Debug.LogUser.Name}}</td>
+            <td >StartTime: {{Debug.StartTime}}</td>
+            <td >LogLength: {{Debug.LogLength}}</td>
+            <td >Operation: {{Debug.Operation}}</td>
+            <td >Duration: {{Debug.DurationMilliseconds}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="logTableContainer">
+    <div class="">
+      <div class="SearchBoxCon">
+        <h3>Search in log:</h3>
+        <table>
+          <tr >
+            <td *ngFor="let sVal  of getArrayFromLength(SearchValues.length);let i = index">
+              <input  class="SearchBox form-control" type="text" (keyup)="searchInLog()" name="search_{{i}}" [(ngModel)]="SearchValues[i]"  placeholder="  SEARCH">
+            </td>
+            <td id="plus" (click)="addSearchBox()">+</td>
+            <td *ngIf="SearchValues.length > 1" id="minus" (click)="removeSearchBox()">-</td>
+            <td *ngIf="SearchValues.length > 1" id="">
+              Filter by:
+              <select [(ngModel)]="filterBy" (change)="FilterBy()" name="SearchWraplines" id="SearchWraplines" placeholder="Filter by">
+                
+                <option value="Any"> Any</option>
+                <option value="All"> All</option>
+            </select>
+
+            </td>
+            
+          </tr>
+        </table>
+        
+        
+      </div>
+      <!--<mat-form-field appearance="fill">
+        <mat-label>Search wrap lines amount to display </mat-label>
+        <mat-select [(value)]="wrapLinesAmount">
+          <mat-option>None</mat-option>
+          <mat-option value="0"> 0</mat-option>
+          <mat-option value="1"> 1</mat-option>
+          <mat-option value="2"> 2</mat-option>
+          <mat-option value="3"> 3</mat-option>
+          <mat-option value="4"> 4</mat-option>
+          <mat-option value="5"> 5</mat-option>
+          <mat-option value="10"> 10</mat-option>
+         
+        </mat-select>
+      </mat-form-field>-->
+<div style="margin-bottom: 20px;">
+    <label for="SearchWraplines">Wrap lines to display:</label>&nbsp; 
+    <select (change)="onSearchWraplinesChange($event.target.value)" name="SearchWraplines" id="SearchWraplines" [(ngModel)]="wrapLinesAmount">
+        <option value="0"> 0</option>
+        <option value="1"> 1</option>
+        <option value="2"> 2</option>
+        <option value="3"> 3</option>
+        <option value="4"> 4</option>
+        <option value="5"> 5</option>
+        <option value="10"> 10</option>
+    </select> &nbsp; &nbsp; &nbsp; 
+    <label for="debugOnly"> Debug Only:</label> 
+    <input type="checkbox"   id="debugOnly" name="debugOnly" [(ngModel)]="debugOnly" (change)="debugOnlyChanged()"> &nbsp; 
+    <button id="resetFilters" (click)="ResetFilters()">Reset filters</button>
+    <h3>All logs: {{lines.length}}</h3>
+    <h3>Search mach logs: {{lines2display.length}}</h3>       
+
+</div>
+
+
+
+      <table id="myTable">
+        <tr class="header">
+            <th >Line</th>
+            <th >Content</th>
+          </tr>
+        <tr *ngFor="let line of partialLines2display ">
+            <td id="{{line.index}}" class="isDebug{{line.isDebug}} {{line.selected}}">{{line.index}}</td>
+            <td class="isDebug{{line.isDebug}} {{line.selected}}">{{line.text}}</td>
+        </tr>
+        
+      </table>
+    </div>
+</div>
+  
