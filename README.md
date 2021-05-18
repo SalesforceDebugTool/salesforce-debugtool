@@ -7,3 +7,4 @@ All api calls made from the browser using the angular http library.
 No transmission takes place in the server.
 
 In order to enable using the tool in your ORG go to Setup > Cors , click new and add the tool url.
+test
