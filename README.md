@@ -9,6 +9,6 @@ No transmission takes place in the server.
 In order to enable using the tool in your ORG go to Setup > Cors , click new and add the tool url.
 
 Steps to follow if you choosed to deploy your on version:
-1. create a connected app in your org nd set the callback URL to your server path.
-2. modifay the authorization.component.ts with your on client_id connected app
+1. create a connected app in your org and set the callback URL to your server path.
+2. modifay the authorization.component.ts file with your on client_id (Consumer Key) connected app
 
