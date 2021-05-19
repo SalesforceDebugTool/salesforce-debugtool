@@ -12,6 +12,6 @@ No transmission takes place in the server.
 
 
 Steps to follow if you choosed to deploy your on version:
-1. create a connected app in your org and set the callback URL to your server path.
+1. create a connected app in your org and set the callback URL to your server/localhost path.
 2. modifay the authorization.component.ts file with your on client_id (Consumer Key) connected app
 
