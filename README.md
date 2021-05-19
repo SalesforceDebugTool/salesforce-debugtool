@@ -2,7 +2,7 @@ Use this tool for smart search/download/delete ability in Salesforce logs,
 Create and modified TraceFlags/debugLevel and more.
 No installation needed.
 You can use our public heroku base app (https://salesforce-debugtool.herokuapp.com) for daily use or clone and deploy your on.
-Alternatively you can work localy with locakhost by running as angular sever with the following command : ng serve --open 
+Alternatively you can work locally with localhost by running as angular sever with the following command : ng serve --open 
 This tool is client base and the server is needed only to serve the angular,
 All api calls made from the browser using the angular http library.
 No transmission takes place in the server.
