@@ -15,6 +15,7 @@ export class AppComponent {
   Org:Object;
   GMToffSet :number;
   token:string;
+  hasCORSerror = false;
   credentials:Object;
   constructor(private titleService: Title ,private SFAPIService:SFAPIService) {
     var that = this;
@@ -47,6 +48,8 @@ export class AppComponent {
           });
         });
         //this.Debugs = logs.records;
+      } ,err => {
+        this.hasCORSerror = true;
       });
       this.SFAPIService.getOrgDetatils(this.credentials).subscribe(org => {
         console.log(' org info',org);

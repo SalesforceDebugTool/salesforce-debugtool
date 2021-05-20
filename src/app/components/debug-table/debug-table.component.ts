@@ -109,6 +109,7 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
         this.logDisplayCount = this.Debugs.length;
 
         this.setFilters();
+        this.reOrderLogs('desc');
       });
       
   }

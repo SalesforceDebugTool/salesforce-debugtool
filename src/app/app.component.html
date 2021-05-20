@@ -51,7 +51,10 @@
         </mat-tab>
       </mat-tab-group>
     </div>
-   
+    <div class="CORSerror" *ngIf="hasCORSerror">
+      Error while login attempts. <br>
+      Please go to your ORG and navigate to -> setup -> cors, and make sure the tool path is allowed.    
+    </div>
   </ng-template>
 
   

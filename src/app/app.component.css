@@ -26,3 +26,15 @@
 .IsSandbox-false::after {
   content: " PRD";
 }
+.CORSerror{
+  
+  line-height: 50px;
+  color: #ba3939;
+  background: #ffe0e0;
+  border: 1px solid #a33a3a;
+  margin: auto;
+  margin-top: 100px ;
+  width: 50%;
+  font-size: xx-large;
+  padding: 20px;
+}
