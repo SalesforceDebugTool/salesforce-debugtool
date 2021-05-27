@@ -574,7 +574,11 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
       return log['selected'] == false && log['display'];
     }).map(log => log.Id);
     if(selectedLogsId.length)
-      this.delete200Logs(selectedLogsId);  
+      this.delete200Logs(selectedLogsId);
+    else{
+      this.showDeleteAllSpinner = false;
+      return;
+    }    
   }
 
   deleteUnmatched(){
@@ -582,6 +586,10 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
     
     var logIds = this.Debugs.filter( function( log ) {return  !log['display'];}).map(log => log.Id);
     console.log('delete size',logIds.length);
+    if(logIds.length == 0){
+      this.showDeleteAllSpinner = false;
+      return;
+    }
     /*this.SFAPIService.deleteLogs(new Array(logIds[0]) ,this.credentials).subscribe(deletedRes => {
       console.log('deleted logs res',deletedRes);
     });*/
