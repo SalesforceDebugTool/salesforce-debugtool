@@ -14,7 +14,7 @@ table{
     padding-top: 12px;
     padding-bottom: 12px;
     
-    background-color: #4CAF50;
+    background-color: lightseagreen;
     color: white;
   }
 
@@ -168,4 +168,7 @@ table{
 
   .center{
     text-align: center;
+}
+tbody tr{
+  border: 1px solid #ddd;
 }

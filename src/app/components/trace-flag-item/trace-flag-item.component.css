@@ -12,7 +12,7 @@
     background-color: gray;
 }
 td{
-    padding: 5px;
+    padding: 15px 5px 0 5px ;
 }
 .center{
     text-align: center;
@@ -42,3 +42,14 @@ td{
     -o-animation: up-right 1s infinite;
     animation: up-right 1s infinite;
 }*/
+.Date .ng-pristine , .Date .ng-untouched , .Date .ng-touched,.Date .ng-valid{
+    padding: 0px 10px;
+    height: 49px !important;
+    background: #F5F5F5;
+    border: aliceblue;
+    border-bottom: black 1px solid;
+    top: -10px;
+    position: relative;
+    /*margin-bottom: 20px !important;*/
+}
+

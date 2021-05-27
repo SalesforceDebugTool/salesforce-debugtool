@@ -19,13 +19,13 @@
     <!--<td class="center">{{traceFlag.DebugLevel.DeveloperName}}</td>-->
     <!--<td>{{traceFlag.ExpirationDate}}</td>-->
     
-    <td class="center">
+    <td class="Date center">
         <input [owlDateTimeTrigger]="StartDate" [owlDateTime]="StartDate"
            [(ngModel)]="selectedMoments"
            [selectMode]="'rangeFrom'">
         <owl-date-time #StartDate></owl-date-time>
     </td>
-    <td class="center">
+    <td class="Date center">
         <input [owlDateTimeTrigger]="ExpirationDate" [owlDateTime]="ExpirationDate"
            [(ngModel)]="selectedMoments"
            [selectMode]="'rangeTo'">
