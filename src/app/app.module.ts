@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -45,6 +46,7 @@ const appRoutes: Routes = [
  
 ];  
 @NgModule({
+  exports: [ClipboardModule],
   declarations: [
     AppComponent,
     MyCMPComponent,

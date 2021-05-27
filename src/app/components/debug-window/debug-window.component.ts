@@ -1,10 +1,12 @@
 
 import {Component, ViewChild, OnInit, ComponentFactoryResolver, ApplicationRef, Injector, OnDestroy ,Input,AfterViewInit,ElementRef,AfterViewChecked} from '@angular/core';
 import { HostListener } from '@angular/core';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {MatDialog, MAT_DIALOG_DATA,MatDialogConfig} from '@angular/material/dialog';
 import { Debug } from '../../models/Debug';
 import {MatIconModule} from '@angular/material/icon'
+
 @Component({
   selector: 'app-debug-window',
   templateUrl: './debug-window.component.html',
@@ -18,6 +20,7 @@ export class DebugWindowComponent implements OnInit {
   filterBy = 'All'
   myStyle: SafeHtml;
   scrollScript : SafeHtml;
+  tableFontSize='initial';
   @Input() Debug:Debug;
 
 
@@ -32,7 +35,7 @@ export class DebugWindowComponent implements OnInit {
   public SearchValues:any[];
   // STEP 2: save a reference to the window so we can close it
   private externalWindow = null;
-  constructor(private _sanitizer: DomSanitizer,public dialog: MatDialog,private elementRef:ElementRef){
+  constructor(private clipboard: Clipboard,private _sanitizer: DomSanitizer,public dialog: MatDialog,private elementRef:ElementRef){
     this.SearchValues = [''];
     }
 
@@ -385,6 +388,30 @@ export class DebugWindowComponent implements OnInit {
         
       }
       return arr;
+    }
+
+    async copy2Clipboard(){
+      console.log('### copy2Clipboard');
+
+      var text2copy = this.lines2display.map(line => line.text).join("\n");
+      //this.clipboard.copy(text2copy);
+      //navigator.clipboard.writeText(text2copy).then().catch(e => console.log(e));
+      await navigator.clipboard.writeText(text2copy);
+      /*const selBox = document.createElement('textarea');
+      selBox.style.position = 'fixed';
+      selBox.style.left = '0';
+      selBox.style.top = '0';
+      selBox.style.opacity = '0';
+      selBox.value = text2copy;
+      document.body.appendChild(selBox);
+      selBox.focus();
+      selBox.select();
+      document.execCommand('copy');
+      document.body.removeChild(selBox);*/
+   
+    }
+    fontSizeChanged(){
+      console.log(this.tableFontSize)
     }
    
 }

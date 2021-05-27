@@ -9,21 +9,32 @@
     
 <br/>
 <br/>
-  
-    <h2> Displaying : {{logDisplayCount}} of {{Debugs.length}} &nbsp;&nbsp;
-        <button  (click)="refreshLogsFromServer()" >Refrersh </button>
+   
+    <h2>Fetched logs {{Debugs.length}} <span *ngIf="Debugs.length<allLogsAmount">of {{allLogsAmount}} In total.</span>  &nbsp;&nbsp;
+        <button   mat-raised-button color="primary" (click)="refreshLogsFromServer()" >Refrersh </button>
         <mat-spinner  *ngIf="showRefrershSpinner" [diameter]="20"></mat-spinner>
     </h2>
-    <h3>Selected: {{selectedLength}}</h3>
+    <p>Now Displaying : {{logDisplayCount}}<span *ngIf="selectedLength>0"> , Selected: {{selectedLength}} </span></p>
    
     
           
     <div  class="spinner-wrapper">
         <mat-spinner *ngIf="showsearchInFilesSpinner" [diameter]="20"></mat-spinner>
         
-        <label for="searchInFiles" >Search in files:</label>
-        <input style="    width:200px !important ;border: solid 1px;" #searchInFilesInput id="searchInFiles" matInput (keyup)="searchInFiles($event.target.value)" [(value)]="globalSearchValue"  placeholder="Search" />
-        <input (change)="hideUnmatched = !hideUnmatched" [checked]="hideUnmatched" type="checkbox" />hide Unmatched
+        <!--<label for="searchInFiles" >Search in files:</label>
+        <input matInput style="    width:200px !important ;border: solid 1px;" #searchInFilesInput id="searchInFiles" matInput (keyup)="searchInFiles($event.target.value)" [(value)]="globalSearchValue"  placeholder="Search" />-->
+        <mat-form-field class="example-full-width">
+            <mat-label>Search in files:</mat-label>
+            <input #searchInFilesInput id="searchInFiles" matInput (keyup)="searchInFiles($event.target.value)" [(value)]="globalSearchValue"  placeholder="Search">
+          </mat-form-field>
+          &nbsp;&nbsp;
+          <mat-checkbox class="example-margin"
+            [checked]="hideUnmatched"
+            [color]="primary"
+            (change)="hideUnmatched = !hideUnmatched">
+            hide Unmatched
+        </mat-checkbox>  
+       <!-- <input (change)="hideUnmatched = !hideUnmatched" [checked]="hideUnmatched" type="checkbox" />hide Unmatched-->
         &nbsp;&nbsp;
         <span class="tooltip ">
             <span class="tooltip info-mark" >&#9432;</span>
@@ -88,25 +99,30 @@
         
             &nbsp;
             
-            <button  (click)="resetfilters()" >reset filters</button>
+            <button   mat-raised-button color="primary" (click)="resetfilters()" >reset filters</button>
         </div>
       
       <br/>
       
       
       <div class="spinner-wrapper">
-        <button  (click)="downloadSelected()" >DownLoad Selected</button>
+        <button  (click)="downloadSelected()"  mat-raised-button color="primary" >DownLoad Selected</button>
         &nbsp;   
-        <button  (click)="downLoadZip()" >DownLoad all</button>  
+        <button  (click)="downLoadZip()"  mat-raised-button color="primary" >DownLoad all</button>  
         <mat-spinner *ngIf="showDownLoadAllSpinner" [diameter]="20"></mat-spinner>
         &nbsp;
         &nbsp;
         &nbsp;
-        <button  (click)="deleteAllLogs()" >Delete all</button>
+        <button  (click)="deleteAllLogs()" mat-raised-button color="warn" >Delete all</button>
         <mat-spinner *ngIf="showDeleteAllSpinner" [diameter]="20"></mat-spinner>
         &nbsp;
 
-        <button  (click)="deleteSelected()" >Delete Selected</button>
+        <button  (click)="deleteSelected()" mat-raised-button color="accent" >Delete Selected</button>
+        &nbsp;
+        <button  (click)="deleteNotSelected()" mat-raised-button color="accent" >Delete not selected</button>
+        &nbsp;
+        <button  (click)="deleteUnmatched()" mat-raised-button color="accent" >Delete  Unmatched</button>
+        &nbsp;
         <mat-spinner *ngIf="showDeleteSelectedSpinner" [diameter]="20"></mat-spinner>
         &nbsp;&nbsp;
         <span class="tooltip ">

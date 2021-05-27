@@ -29,6 +29,7 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
   public selectedMoments = [];
   public GreaterThanDate = new Date();
   public EarlierThanDate =  new Date();
+  allLogsAmount;
   selectedDateFilter ='None';
   selectedLength:number;
   logDisplayCount : number;
@@ -76,6 +77,13 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
     this.selectedUsers = [];
     this.selectedStatuses = [];
     this.selectedOperation = [];
+    this.SFAPIService.getAllLogsAmount(this.credentials).subscribe(res => {
+      console.log('getAllLogsAmount res',res.records[0].expr0);
+      this.allLogsAmount = res.records[0].expr0;
+      
+    });
+
+    
       this.SFAPIService.getLogs(this.credentials).subscribe(logs => {
         
         console.log('getLogs res',logs);
@@ -557,6 +565,28 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
     var d = new Date(date);
     d.setHours(0, 0, 0, 0);
     return d;
+  }
+
+  deleteNotSelected(){
+    this.showDeleteSelectedSpinner = true;
+    //console.log('Debugs',this.Debugs);
+    var selectedLogsId = this.Debugs.filter( function( log ) {
+      return log['selected'] == false && log['display'];
+    }).map(log => log.Id);
+    if(selectedLogsId.length)
+      this.delete200Logs(selectedLogsId);  
+  }
+
+  deleteUnmatched(){
+    this.showDeleteAllSpinner = true;
+    
+    var logIds = this.Debugs.filter( function( log ) {return  !log['display'];}).map(log => log.Id);
+    console.log('delete size',logIds.length);
+    /*this.SFAPIService.deleteLogs(new Array(logIds[0]) ,this.credentials).subscribe(deletedRes => {
+      console.log('deleted logs res',deletedRes);
+    });*/
+
+    this.delete200Logs(logIds);
   }
 }
 

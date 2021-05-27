@@ -10,7 +10,7 @@
     
     <table class="logTable" style="width:100%;" id="logTable">
         <tr class="header">
-            <h2>log Details:</h2>
+            <h2>Log Details:</h2>
         </tr>
         <tr>
             <td >LogId: {{Debug.Id}}</td>
@@ -18,7 +18,7 @@
             <td >StartTime: {{Debug.StartTime}}</td>
             <td >LogLength: {{Debug.LogLength}}</td>
             <td >Operation: {{Debug.Operation}}</td>
-            <td >Duration: {{Debug.DurationMilliseconds}}</td>
+            <td >Duration(ms): {{Debug.DurationMilliseconds}}</td>
         </tr>
     </table>
 </div>
@@ -27,7 +27,7 @@
     <div class="">
       <div class="SearchBoxCon">
         <h3>Search in log:</h3>
-        <table>
+        <table >
           <tr >
             <td *ngFor="let sVal  of getArrayFromLength(SearchValues.length);let i = index">
               <input  class="SearchBox form-control" type="text" (keyup)="searchInLog()" name="search_{{i}}" [(ngModel)]="SearchValues[i]"  placeholder="  SEARCH">
@@ -76,22 +76,35 @@
     </select> &nbsp; &nbsp; &nbsp; 
     <label for="debugOnly"> Debug Only:</label> 
     <input type="checkbox"   id="debugOnly" name="debugOnly" [(ngModel)]="debugOnly" (change)="debugOnlyChanged()"> &nbsp; 
-    <button id="resetFilters" (click)="ResetFilters()">Reset filters</button>
-    <h3>All logs: {{lines.length}}</h3>
-    <h3>Search mach logs: {{lines2display.length}}</h3>       
+    <button  mat-raised-button color="primary" id="resetFilters" (click)="ResetFilters()">Reset filters</button>
+    <select style="margin-right: 56px;float: right;padding: 10px;" [(ngModel)]="tableFontSize" (change)="fontSizeChanged()" name="tableFontSize" id="tableFontSize" placeholder="Font Size">
+      <option value="initial">Font Size</option>
+      <option value="xx-small">xx-small</option>  
+      <option value="x-small">x-small</option>
+      <option value="small">small</option>
+      <option value="medium">medium</option>
+      <option value="large">large</option>
+      <option value="x-large">x-large</option>
+      <option value="xx-large">xx-large</option>
+      <option value="xxx-large">xxx-large</option>
+  </select>
+   <!--<button id="copy2Clipboard" (click)="copy2Clipboard()">Copy to clipboard </button>--> 
+    
+    <p>Log lines amount: {{lines.length}}</p>
+    <p >Matches: {{lines2display.length}}</p>       
 
 </div>
 
 
 
-      <table id="myTable">
+      <table #logTable id="myTable" style="font-size: {{tableFontSize}}">
         <tr class="header">
             <th >Line</th>
             <th >Content</th>
           </tr>
         <tr *ngFor="let line of partialLines2display ">
             <td id="{{line.index}}" class="isDebug{{line.isDebug}} {{line.selected}}">{{line.index}}</td>
-            <td class="isDebug{{line.isDebug}} {{line.selected}}">{{line.text}}</td>
+            <td style="line-break: anywhere;" class="isDebug{{line.isDebug}} {{line.selected}}">{{line.text}}</td>
         </tr>
         
       </table>

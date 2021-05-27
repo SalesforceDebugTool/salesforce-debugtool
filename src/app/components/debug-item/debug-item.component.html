@@ -1,8 +1,8 @@
 <td><input  [checked]="Debug['selected']" (change)="Debug['selected'] = !Debug['selected'];onSelected();" type="checkbox" ></td>
-<td><button  color="primary" mat-icon-button (click)="downLoad()" ><mat-icon>save_alt</mat-icon></button></td>
-<td><button color="primary" mat-icon-button (click)="delete()" ><mat-icon>delete</mat-icon></button></td>
-<td><button color="primary" mat-icon-button  (click)="viewLog()" ><mat-icon>preview</mat-icon></button></td>
-<td><a color="primary" mat-icon-button  (click)="viewLogNewTab()" ><mat-icon>launch</mat-icon></a>
+<td title="DownLoad log" ><button  color="primary" mat-icon-button (click)="downLoad()" ><mat-icon>save_alt</mat-icon></button></td>
+<td title="Delete log" ><button color="primary" mat-icon-button (click)="delete()" ><mat-icon>delete</mat-icon></button></td>
+<td title="Log preview" ><button color="primary" mat-icon-button  (click)="viewLog()" ><mat-icon>preview</mat-icon></button></td>
+<td title="Open log in new window" ><a color="primary" mat-icon-button  (click)="viewLogNewTab()" ><mat-icon>launch</mat-icon></a>
 <window *ngIf="openNewLogTab">
     <app-debug-window  [Debug]='Debug'>
     </app-debug-window>
@@ -13,7 +13,7 @@
 <td *ngIf="Debug.textFileStatuse == 'downloading' "><img style="width: 30px;" src="assets/img/download.gif"></td>
 <td *ngIf="!Debug.textFileStatuse "><mat-icon>cloud_download</mat-icon></td>
 <td *ngIf="Debug.textFileStatuse =='done' " style="color: green;" ><mat-icon>cloud_done</mat-icon></td>
-<td style="background-color:{{Debug.color}}" >{{Debug.LogUser.Name}}</td>
+<td  style="background-color:{{Debug.color}}" >{{Debug.LogUser.Name}}</td>
 <td style="background-color:{{Debug.color}}">{{Debug.StartTimeSTR}}</td>
 <td style="background-color:{{Debug.color}}">{{Debug.Request}}</td>
 <td style="background-color:{{Debug.color}}">{{Debug.Status}}</td>

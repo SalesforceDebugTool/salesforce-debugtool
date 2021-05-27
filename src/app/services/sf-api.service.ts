@@ -104,6 +104,16 @@ export class SFAPIService {
     
   }
 
+  getAllLogsAmount(credentials):Observable<any>{
+    console.log('inside getAllLogsAmount');
+    const headers = new HttpHeaders()
+    .set("Authorization", "Bearer "+credentials.access_token)
+    .set('Content-Type', 'application/json');
+    
+    var url = credentials.instance_url+'/services/data/v36.0/tooling/query/?q=SELECT+count(id)+from+apexlog';
+    return this.http.get<any>(url,{headers});
+  }
+
   getLogText(logId,credentials):Observable<string>{
     console.log('inside getLogText');
     const requestOptions: Object = {

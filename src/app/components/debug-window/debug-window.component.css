@@ -30,4 +30,10 @@
     /* Add a grey background color to the table header and on hover */
     background-color: #f1f1f1;
   }
- 
+ #tableFontSize{
+  margin-right: 56px;
+  float: right;
+    /* height: 35px; */
+    /*border: pink 1px solid;*/
+    padding: 10px;
+ }
