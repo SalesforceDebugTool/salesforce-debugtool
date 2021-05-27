@@ -114,9 +114,11 @@
         &nbsp;
         &nbsp;
         <button  (click)="deleteAllLogs()" mat-raised-button color="warn" >Delete all</button>
+        
         <mat-spinner *ngIf="showDeleteAllSpinner" [diameter]="20"></mat-spinner>
         &nbsp;
-
+        <button  (click)="deleteDisplayingLogs()" mat-raised-button color="warn" >Delete Displaying</button>
+        &nbsp;
         <button  (click)="deleteSelected()" mat-raised-button color="accent" >Delete Selected</button>
         &nbsp;
         <button  (click)="deleteNotSelected()" mat-raised-button color="accent" >Delete not selected</button>

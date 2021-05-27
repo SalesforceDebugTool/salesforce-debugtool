@@ -174,10 +174,15 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
     
   }
   deleteAllLogs():void{
-    this.showDeleteAllSpinner = true;
     
-    var logIds = this.Debugs.filter( function( log ) {return  log['display'];}).map(log => log.Id);
+    
+    var logIds = this.Debugs.map(log => log.Id);
     console.log('delete size',logIds.length);
+    if(logIds.length == 0){
+      this.showDeleteAllSpinner = false; 
+      return ;
+    }
+    this.showDeleteAllSpinner = true;
     /*this.SFAPIService.deleteLogs(new Array(logIds[0]) ,this.credentials).subscribe(deletedRes => {
       console.log('deleted logs res',deletedRes);
     });*/
@@ -594,6 +599,18 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
     /*this.SFAPIService.deleteLogs(new Array(logIds[0]) ,this.credentials).subscribe(deletedRes => {
       console.log('deleted logs res',deletedRes);
     });*/
+    this.showDeleteSelectedSpinner = true;
+    this.delete200Logs(logIds);
+  }
+  deleteDisplayingLogs(){
+    
+    
+    var logIds = this.Debugs.filter( function( log ) {return  log['display'];}).map(log => log.Id);
+    console.log('delete size',logIds.length);
+    if(logIds.length == 0){
+      this.showDeleteSelectedSpinner = false;
+      return false;
+    }
     this.showDeleteSelectedSpinner = true;
     this.delete200Logs(logIds);
   }
