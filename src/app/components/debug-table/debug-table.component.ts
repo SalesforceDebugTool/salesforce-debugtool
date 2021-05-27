@@ -568,32 +568,33 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
   }
 
   deleteNotSelected(){
-    this.showDeleteSelectedSpinner = true;
+    
     //console.log('Debugs',this.Debugs);
     var selectedLogsId = this.Debugs.filter( function( log ) {
       return log['selected'] == false && log['display'];
     }).map(log => log.Id);
-    if(selectedLogsId.length)
-      this.delete200Logs(selectedLogsId);
-    else{
+    console.log('selectedLogsId.length',selectedLogsId.length);
+    if(selectedLogsId.length == 0){
       this.showDeleteAllSpinner = false;
-      return;
-    }    
+      return false;
+    }
+    this.showDeleteSelectedSpinner = true;
+    this.delete200Logs(selectedLogsId);    
   }
 
   deleteUnmatched(){
-    this.showDeleteAllSpinner = true;
+    
     
     var logIds = this.Debugs.filter( function( log ) {return  !log['display'];}).map(log => log.Id);
     console.log('delete size',logIds.length);
     if(logIds.length == 0){
-      this.showDeleteAllSpinner = false;
-      return;
+      this.showDeleteSelectedSpinner = false;
+      return false;
     }
     /*this.SFAPIService.deleteLogs(new Array(logIds[0]) ,this.credentials).subscribe(deletedRes => {
       console.log('deleted logs res',deletedRes);
     });*/
-
+    this.showDeleteSelectedSpinner = true;
     this.delete200Logs(logIds);
   }
 }
