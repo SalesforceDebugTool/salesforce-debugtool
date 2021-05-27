@@ -68,11 +68,12 @@
     <select (change)="onSearchWraplinesChange($event.target.value)" name="SearchWraplines" id="SearchWraplines" [(ngModel)]="wrapLinesAmount">
         <option value="0"> 0</option>
         <option value="1"> 1</option>
-        <option value="2"> 2</option>
         <option value="3"> 3</option>
-        <option value="4"> 4</option>
         <option value="5"> 5</option>
         <option value="10"> 10</option>
+        <option value="25"> 25</option>
+        <option value="50"> 50</option>
+        <option value="100"> 100</option>
     </select> &nbsp; &nbsp; &nbsp; 
     <label for="debugOnly"> Debug Only:</label> 
     <input type="checkbox"   id="debugOnly" name="debugOnly" [(ngModel)]="debugOnly" (change)="debugOnlyChanged()"> &nbsp; 
