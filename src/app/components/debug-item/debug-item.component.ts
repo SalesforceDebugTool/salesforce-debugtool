@@ -4,6 +4,8 @@ import { GetLogsService } from '../../services/get-logs.service';
 import { SFAPIService } from '../../services/sf-api.service';
 import {MatDialog, MAT_DIALOG_DATA,MatDialogConfig} from '@angular/material/dialog';
 import {FixedSizeVirtualScrollStrategy, VIRTUAL_SCROLL_STRATEGY} from '@angular/cdk/scrolling';
+import { DataService } from '../../services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: '[app-debug-item]',
@@ -13,7 +15,8 @@ import {FixedSizeVirtualScrollStrategy, VIRTUAL_SCROLL_STRATEGY} from '@angular/
 export class DebugItemComponent implements OnInit, OnDestroy  {
   @Output() onItemDeleted = new EventEmitter<boolean>();
   @Output() onSelectedOne = new EventEmitter<boolean>();
-  
+  message:any;
+  subscription: Subscription;
   
 
   @Input() Debug:Debug;
@@ -22,13 +25,13 @@ export class DebugItemComponent implements OnInit, OnDestroy  {
   openNewLogTab:boolean;
   chiledWindowClosed = false;
   @Input() GMToffSet :number;
-  constructor(private SFAPIService:SFAPIService ,public dialog: MatDialog) {
+  constructor(private SFAPIService:SFAPIService ,public dialog: MatDialog,private data: DataService) {
     
     
    }
 
   ngOnInit(): void {
-    
+    //this.subscription = this.data.currentMessage.subscribe(message => this.message = message)
     this.openNewLogTab = false;
     //this.Debug['StartTimeSTR'] = new Date(this.Debug['StartTime']).toLocaleString();
     this.Debug['StartTimeRealGMT'] = this.SFAPIService.RealGmtToLocal(this.GMToffSet,this.Debug['StartTime']);
@@ -48,6 +51,7 @@ export class DebugItemComponent implements OnInit, OnDestroy  {
     console.log('log id',this.Debug.Id);
     console.log('this.openNewLogTab',this.openNewLogTab);
     if(this.Debug['textFile']){
+      this.data.changeMessage(this.Debug);
       console.log('has Text file!');
       if(this.openNewLogTab ==true){
         this.openNewLogTab =false;
@@ -55,14 +59,16 @@ export class DebugItemComponent implements OnInit, OnDestroy  {
         setTimeout(function(){that.openNewLogTab = true;} , 10);
       }else
         this.openNewLogTab =true;
+        this.data.changeMessage(this.Debug);
     }
     else{
       this.Debug['textFileStatuse'] = 'downloading';
       this.SFAPIService.getLogText(this.Debug.Id,this.credentials).subscribe(log => {
-        console.log('log res',log);
+        //console.log('log res',log);
         this.Debug['textFile'] = log;
         this.Debug['textFileStatuse'] = 'done';
         this.openNewLogTab =true;
+        this.data.changeMessage(this.Debug);
         //this.Debugs = logs.records;
       });
     }

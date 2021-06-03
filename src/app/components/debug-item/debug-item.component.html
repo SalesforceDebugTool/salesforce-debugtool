@@ -3,10 +3,10 @@
 <td title="Delete log" ><button color="primary" mat-icon-button (click)="delete()" ><mat-icon>delete</mat-icon></button></td>
 <td title="Log preview" ><button color="primary" mat-icon-button  (click)="viewLog()" ><mat-icon>preview</mat-icon></button></td>
 <td title="Open log in new window" ><a color="primary" mat-icon-button  (click)="viewLogNewTab()" ><mat-icon>launch</mat-icon></a>
-<window *ngIf="openNewLogTab">
-    <app-debug-window  [Debug]='Debug'>
+<!--<window *ngIf="openNewLogTab">
+    <app-debug-window  [cdkPortalOutlet]="portal" [Debug]='Debug'>
     </app-debug-window>
-</window>
+</window>-->
 
 </td>
 

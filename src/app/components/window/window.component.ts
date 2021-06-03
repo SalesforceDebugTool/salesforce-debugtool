@@ -28,8 +28,11 @@ export class WindowComponent implements OnInit, OnDestroy {
     private componentFactoryResolver: ComponentFactoryResolver,
     private applicationRef: ApplicationRef,
     private injector: Injector){}
+    
 
-  ngOnInit(){}
+  ngOnInit(){
+    //this.portal = new ComponentPortal(this.data.component);
+  }
   ngAfterViewInit(){
     // STEP 4: create an external window
     this.externalWindow = window.open('', "_blank");

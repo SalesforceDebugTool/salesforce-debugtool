@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MyCMPComponent } from './components/my-cmp/my-cmp.component';
+//import { MyCMPComponent } from './components/my-cmp/my-cmp.component';
 import { TraceFlagItemComponent } from './components/trace-flag-item/trace-flag-item.component';
 import {MatFormFieldModule,} from '@angular/material/form-field';
 import { DebugItemComponent } from './components/debug-item/debug-item.component';
@@ -41,7 +41,9 @@ import { MatTableDataSource} from '@angular/material/table';
 
 import {  MatSort} from '@angular/material/sort';
 import {  MatPaginator} from '@angular/material/paginator';
-
+import { LogTabComponent } from './components/log-tab/log-tab.component';
+import {MatListModule} from '@angular/material/list';
+import {MatExpansionModule} from '@angular/material/expansion';
 const appRoutes: Routes = [ 
  
 ];  
@@ -49,7 +51,6 @@ const appRoutes: Routes = [
   exports: [ClipboardModule],
   declarations: [
     AppComponent,
-    MyCMPComponent,
     TraceFlagItemComponent,
     DebugItemComponent,
     TraceFlagTableComponent,
@@ -58,9 +59,13 @@ const appRoutes: Routes = [
     ViewLogComponent,
     DebugWindowComponent,
     
-    WindowComponent
+    WindowComponent,
+    
+    LogTabComponent
   ],
   imports: [
+    MatExpansionModule,
+    MatListModule,
     Ng2SearchPipeModule,
     RouterModule.forRoot(appRoutes),
     PortalModule,

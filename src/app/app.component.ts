@@ -1,26 +1,57 @@
-import { Component } from '@angular/core';
+import { Component ,OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { DebugTableComponent } from './components/debug-table/debug-table.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { Title } from '@angular/platform-browser';
 import { SFAPIService } from './services/sf-api.service';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
+import {FormControl} from '@angular/forms';
+import { DataService } from "./services/data.service";
+import { Subscription } from 'rxjs';
+import { debuglog } from 'util';
+import { Debug } from './models/Debug';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
+
+  @ViewChild(DebugTableComponent) debugTableComponent;
+  subscription: Subscription;
   fronDorLink:string;
   User:Object;
   Org:Object;
   GMToffSet :number;
+  Debugs:Debug[];
   token:string;
   hasCORSerror = false;
   credentials:Object;
-  constructor(private titleService: Title ,private SFAPIService:SFAPIService) {
+  logTabs = [];
+  selected = new FormControl(0);
+  ngAfterViewInit() {
+    //this.Debugs = this.debugTableComponent.Debugs
+  }
+  ngOnInit() {
+    //this.subscription = this.data.currentMessage.subscribe(debuglog =>this.logTabs.push(debuglog) );
+    this.subscription = this.data.currentMessage.subscribe(debuglog =>{
+      if(debuglog != ''){
+        this.Debugs = this.debugTableComponent.Debugs
+        if( this.logTabs.filter(log=>{return log.Id == debuglog['Id'];}).length < 1){
+          this.logTabs.push(debuglog);
+          this.selected.setValue(this.logTabs.length + 1);
+        }else{
+          var index = this.logTabs.map(function(e) { return e.Id; }).indexOf(debuglog['Id']);
+          console.log('### log index',index)
+          this.selected.setValue(index + 2);
+        }
+      }
+    } );
+  }
+  constructor(private titleService: Title ,private SFAPIService:SFAPIService,private data: DataService) {
     var that = this;
   
-   
+    
 
     this.titleService.setTitle( 'Debbug Tool' );
     this.credentials = {}; 
@@ -67,6 +98,18 @@ export class AppComponent {
     }
     
     console.log('token',this.token);
+  }
+
+  addTab(selectAfterAdding: boolean) {
+    this.logTabs.push('New');
+
+    if (selectAfterAdding) {
+      this.selected.setValue(this.logTabs.length - 1);
+    }
+  }
+
+  removeTab(index: number) {
+    this.logTabs.splice(index, 1);
   }
 
 }

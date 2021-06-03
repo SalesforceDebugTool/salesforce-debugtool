@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MyCMPComponent } from './my-cmp.component';
+import { LogTabComponent } from './log-tab.component';
 
-describe('MyCMPComponent', () => {
-  let component: MyCMPComponent;
-  let fixture: ComponentFixture<MyCMPComponent>;
+describe('LogTabComponent', () => {
+  let component: LogTabComponent;
+  let fixture: ComponentFixture<LogTabComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MyCMPComponent ]
+      declarations: [ LogTabComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MyCMPComponent);
+    fixture = TestBed.createComponent(LogTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

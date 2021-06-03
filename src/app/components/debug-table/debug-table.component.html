@@ -7,8 +7,8 @@
         <li>{{traceFlag.TracedEntity.Name}}</li>
     </ul>-->
     
-<br/>
-<br/>
+    <br/>
+    <br/>
    
     <h2>Fetched logs {{Debugs.length}} <span *ngIf="Debugs.length<allLogsAmount">of {{allLogsAmount}} In total.</span>  &nbsp;&nbsp;
         <button   mat-raised-button color="primary" (click)="refreshLogsFromServer()" >Refrersh </button>
@@ -176,5 +176,5 @@
 <ng-template #elseBlock>
     <br/><br/>
     <h1>No logs to display please refresh:</h1>
-    <button  (click)="refreshLogsFromServer()" >Refrersh</button>
+    <button  (click)="refreshLogsFromServer()" >Refresh</button>
 </ng-template>

@@ -1,0 +1,159 @@
+
+<span    id="setscrol"  ></span>
+<div id="arrows">
+    <div class="arrow arrow-up"(click)="goUp()" >	&#8607;</div>
+    <div class="arrow arrow-down" (click)="goDown()">&#8609;</div>
+    
+
+</div> 
+
+
+ 
+<div class="logTableContainer">
+   
+    <h2>Log lines amount: {{lines.length}}</h2>
+    <h3 >Matches: {{lines2display.length}}</h3> 
+    
+    <br><br>
+    <div class="">
+      <div class="SearchBoxCon">
+        <table >
+          <tr >
+            <td *ngFor="let sVal  of getArrayFromLength(SearchValues.length);let i = index">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Search in log:</mat-label>
+                    <input  matInput class="SearchBox form-control" type="text" (keyup)="searchInLog()" name="search_{{i}}" [(ngModel)]="SearchValues[i]"  placeholder="  SEARCH">
+                  </mat-form-field>
+              
+            </td>
+            <td id="plus" (click)="addSearchBox()">+</td>
+            <td *ngIf="SearchValues.length > 1" id="minus" (click)="removeSearchBox()">-</td>
+            <td *ngIf="SearchValues.length > 1" id="">
+                <mat-form-field appearance="fill">
+                    <mat-label>Filter by:</mat-label>   
+                    <mat-select (selectionChange)="FilterBy()" name="filterBy" id="filterBy" [(ngModel)]="filterBy" placeholder="Filter by">
+                        <mat-option  value="None" >None</mat-option>
+                            <mat-option value="Any">Any</mat-option>
+                            <mat-option value="All">All</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+            
+          </tr>
+        </table>
+        
+        
+      </div>
+      <!--<mat-form-field appearance="fill">
+        <mat-label>Search wrap lines amount to display </mat-label>
+        <mat-select [(value)]="wrapLinesAmount">
+          <mat-option>None</mat-option>
+          <mat-option value="0"> 0</mat-option>
+          <mat-option value="1"> 1</mat-option>
+          <mat-option value="2"> 2</mat-option>
+          <mat-option value="3"> 3</mat-option>
+          <mat-option value="4"> 4</mat-option>
+          <mat-option value="5"> 5</mat-option>
+          <mat-option value="10"> 10</mat-option>
+         
+        </mat-select>
+      </mat-form-field>-->
+<div style="margin-bottom: 20px;">
+   <!-- <label for="SearchWraplines">Wrap lines to display:</label>&nbsp; 
+    <select (change)="onSearchWraplinesChange($event.target.value)" name="SearchWraplines" id="SearchWraplines" [(ngModel)]="wrapLinesAmount">
+        <option value="0"> 0</option>
+        <option value="1"> 1</option>
+        <option value="3"> 3</option>
+        <option value="5"> 5</option>
+        <option value="10"> 10</option>
+        <option value="25"> 25</option>
+        <option value="50"> 50</option>
+        <option value="100"> 100</option>
+    </select> &nbsp; &nbsp; &nbsp; -->
+    <mat-form-field appearance="fill">
+        <mat-label>Wrap lines to display:</mat-label>   
+        <mat-select (selectionChange)="onSearchWraplinesChange($event.value)" name="SearchWraplines" id="SearchWraplines" [(ngModel)]="wrapLinesAmount">
+            <mat-option  value="None" >None</mat-option>
+                <mat-option value="0"> 0</mat-option>
+                <mat-option value="1"> 1</mat-option>
+                <mat-option value="3"> 3</mat-option>
+                <mat-option value="5"> 5</mat-option>
+                <mat-option value="10"> 10</mat-option>
+                <mat-option value="25"> 25</mat-option>
+                <mat-option value="50"> 50</mat-option>
+                <mat-option value="100"> 100</mat-option>
+        </mat-select>
+    </mat-form-field>&nbsp; &nbsp; &nbsp; 
+    <label for="debugOnly"> Debug Only:  </label> 
+    <mat-checkbox class="example-margin"
+            [(ngModel)]="debugOnly"
+            (change)="debugOnlyChanged()">
+            hide Unmatched
+    </mat-checkbox> &nbsp; &nbsp; &nbsp; 
+    <!--<input type="checkbox"   id="debugOnly" name="debugOnly" [(ngModel)]="debugOnly" (change)="debugOnlyChanged()"> &nbsp; -->
+    <button  mat-raised-button color="primary" id="resetFilters" (click)="ResetFilters()">Reset filters</button>
+    &nbsp; 
+    <button mat-raised-button color="accent" id="copy2Clipboard" (click)="copy2Clipboard()">Copy to clipboard </button>
+    <div style="margin-right: 56px;float: right;">
+        <mat-form-field appearance="fill">
+            <mat-select  [(ngModel)]="tableFontSize" (selectionChange)="fontSizeChanged()"  name="tableFontSize" id="tableFontSize" placeholder="Font Size">
+                <mat-option value="initial">Font Size</mat-option>
+                <mat-option value="xx-small">xx-small</mat-option>  
+                <mat-option value="x-small">x-small</mat-option>
+                <mat-option value="small">small</mat-option>
+                <mat-option value="medium">medium</mat-option>
+                <mat-option value="large">large</mat-option>
+                <mat-option value="x-large">x-large</mat-option>
+                <mat-option value="xx-large">xx-large</mat-option>
+                <mat-option value="xxx-large">xxx-large</mat-option>
+            </mat-select>
+        </mat-form-field>
+       
+    </div>
+    <div style="width: 97%;">
+        <mat-expansion-panel (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+            Log details 
+            </mat-panel-title>  
+            <mat-panel-description>
+                User Name: {{Debug.LogUser.Name}}  (Status: {{Debug.Status}})
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+    
+            <mat-list>
+                <mat-list-item> LogId: {{Debug.Id}}</mat-list-item>
+                <mat-list-item> Status: {{Debug.Status}}</mat-list-item>
+                <mat-list-item> User Name: {{Debug.LogUser.Name}}</mat-list-item>
+                <mat-list-item> StartTime: {{Debug.StartTime}}</mat-list-item>
+                <mat-list-item> LogLength: {{Debug.LogLength}}</mat-list-item>
+                <mat-list-item> Operation: {{Debug.Operation}}</mat-list-item>
+                <mat-list-item> Duration(ms): {{Debug.DurationMilliseconds}}</mat-list-item>
+            </mat-list>
+    
+        </mat-expansion-panel>
+    </div>
+    
+   
+    
+    
+    
+</div>
+
+
+
+      <table #logTable id="myTable" style="font-size: {{tableFontSize}}">
+        <tr class="header">
+            <th >Line</th>
+            <th >Content</th>
+          </tr>
+        <tr *ngFor="let line of partialLines2display ">
+            <td id="{{line.index}}" class="isDebug{{line.isDebug}} {{line.selected}}">{{line.index}}</td>
+            <td style="line-break: anywhere;line-height: 1.5;" class="isDebug{{line.isDebug}} {{line.selected}}">{{line.text}}</td>
+        </tr>
+        
+      </table>
+    </div>
+</div>
+  

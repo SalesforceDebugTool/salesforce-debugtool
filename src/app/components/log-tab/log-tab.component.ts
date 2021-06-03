@@ -1,24 +1,26 @@
 
 import {Component, ViewChild, OnInit, ComponentFactoryResolver, ApplicationRef, Injector, OnDestroy ,Input,AfterViewInit,ElementRef,AfterViewChecked} from '@angular/core';
+import {FlatTreeControl} from '@angular/cdk/tree';
 import { HostListener } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {MatDialog, MAT_DIALOG_DATA,MatDialogConfig} from '@angular/material/dialog';
 import { Debug } from '../../models/Debug';
 import {MatIconModule} from '@angular/material/icon'
-
+import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 @Component({
-  selector: 'app-debug-window',
-  templateUrl: './debug-window.component.html',
-  styleUrls: ['./debug-window.component.css']
-
+  selector: 'app-log-tab',
+  templateUrl: './log-tab.component.html',
+  styleUrls: ['./log-tab.component.css']
 })
-export class DebugWindowComponent implements OnInit {
+export class LogTabComponent implements OnInit {
   tableScrollTop;
   lastScrollTop = 0;
+  lastTableScrollTop = 0;
   thisWindow;
   filterBy = 'All'
-  myStyle: SafeHtml;
+  panelOpenState = false;
+  
   scrollScript : SafeHtml;
   tableFontSize='initial';
   @Input() Debug:Debug;
@@ -43,12 +45,13 @@ export class DebugWindowComponent implements OnInit {
     ngAfterViewChecked(){
     if(!this.setscrol ){
       try{
-        this.doc =this.elementRef.nativeElement.querySelector('#setscrol').parentNode.parentNode.parentNode.parentNode;
+        this.doc = document;//this.elementRef.nativeElement.querySelector('#setscrol').parentNode.parentNode.parentNode.parentNode;
         this.doc.addEventListener('scroll',this.onWindowScroll.bind(this));
         this.thisWindow = this.doc.defaultView;
         
         this.setscrol = true;
-        this.tableScrollTop =  this.doc.getElementById('myTable').getBoundingClientRect().y;
+        
+        
       }catch(err){
 
       }
@@ -62,117 +65,7 @@ export class DebugWindowComponent implements OnInit {
       this.lines2display =[];
       //console.log('Debug',this.Debug.textFile);
       
-      this.myStyle =
-      this._sanitizer.bypassSecurityTrustHtml(
-        `<style>
-        #resetFilters{
-          color: white;
-          background: firebrick;
-          border: solid brown 1px;
-          border-radius: 5px;
-          padding: 5px 20px;
-          font-size: 17px;
-        }
-        #plus{
-          font-size: 50px !important;
-          color: green;
-        }
-        #minus{
-          font-size: 50px !important;
-          color: red;
-        }
-        #arrows{
-          position: fixed;
-          right: 10px;
-          top: 40%;
-          font-size: 100px;
-          cursor: pointer;
-        }
-        .arrow {
-          cursor: pointer;
-          color:royalblue;
-          text-shadow: 3px 1px lightskyblue;
-          cursor: pointer;
-          /*width: 50px;
-          height: 50px;
-          border: 18px solid royalblue;
-          border-left: 0;
-          border-top: 0;
-          box-shadow: 2px 2px lightskyblue;
-          border-radius: 17px;
-          cursor: pointer;*/
 
-        }
-        //.arrow-up { transform: rotate(225deg); }
-        //.arrow-down { transform: rotate(45deg); }
-        .logTableContainer{
-          margin: 20px;
-        }
-        .logTable{
-          border: solid 1px blue;
-          background: lightseagreen;
-          color: white;
-        }
-        .logTable td{
-          border: none;
-          font-size: 23px;
-        }
-        .SearchBoxCon{
-          margin-bottom: 20px;
-        }
-        .SearchBox{
-          
-          width: 100%;
-          height: 39px;
-          border-radius: 15px;
-          border: darksalmon solid;
-        }
-        #myInput {
-        background-image: url('/css/searchicon.png'); /* Add a search icon to input */
-        background-position: 10px 12px; /* Position the search icon */
-        background-repeat: no-repeat; /* Do not repeat the icon image */
-        width: 100%; /* Full-width */
-        font-size: 16px; /* Increase font-size */
-        padding: 12px 20px 12px 40px; /* Add some padding */
-        border: 1px solid #8ecc68; /* Add a grey border */
-        margin-bottom: 12px; /* Add some space below the input */
-      }
-      
-      #myTable {
-        //margin: 20px;
-        width: 97%;
-        
-        border-collapse: collapse; /* Collapse borders */
-       
-        border: 1px solid #8ecc68;
-        font-size: 18px; /* Increase font-size */
-      }
-      
-      #myTable th, #myTable td {
-        text-align: left; /* Left-align text */
-        padding: 12px; /* Add padding */
-      }
-      
-      #myTable tr {
-        /* Add a bottom border to all table rows */
-        border-bottom: 1px solid #8ecc68;
-      }
-      
-      #myTable tr.header, #myTable tr:hover {
-        /* Add a grey background color to the table header and on hover */
-        background-color: #f1f1f1;
-      }
-      #myTable td, #myTable th {
-        border: 1px solid #8ecc68;
-        
-      }
-      .isDebugtrue{
-        background: pink;;
-      }
-      .selected{
-        background: aquamarine;
-      }
-      </style>`);
     }
 
     ngAfterViewInit(){
@@ -258,6 +151,7 @@ export class DebugWindowComponent implements OnInit {
       return LineObjList;
     }
     onSearchWraplinesChange(wrapLinesAmount){
+      console.log('wrapLinesAmount',wrapLinesAmount);
       this.wrapLinesAmount = parseInt(wrapLinesAmount);
       this.searchInLog();
     }
@@ -268,11 +162,13 @@ export class DebugWindowComponent implements OnInit {
       this.searchInLog();
     }
     onWindowScroll(event){
-      var cScrollTop = this.doc.body.scrollTop;
+      var cScrollTop = this.doc.documentElement.scrollTop;
       var clientHeight = this.doc.body.clientHeight;
-      console.log('cScrollTop',cScrollTop);
-      console.log('clientHeight',clientHeight);
-      console.log('this.doc.body.clientHeight',this.doc.body.clientHeight);
+      this.tableScrollTop =  (this.elementRef.nativeElement.querySelector('#myTable')).getBoundingClientRect().y;
+     
+      
+      
+      
      
       //console.log('this.doc.defaultView',this.doc.defaultView);
       //console.log('this.doc.defaultView.scrollY',this.doc.defaultView.scrollY);  
@@ -280,11 +176,17 @@ export class DebugWindowComponent implements OnInit {
       //console.log('this.doc.body.scrollTop',this.doc.body.scrollTop); 
       if(this.lastScrollTop < cScrollTop && cScrollTop >=  (this.doc.body.scrollHeight - this.doc.body.clientHeight)){
         this.loadMore();
+        console.log('lastScrollTop',this.lastScrollTop);
+        console.log('cScrollTop',cScrollTop);
+        console.log('clientHeight',clientHeight);
+        console.log('scrollHeight',this.doc.body.scrollHeight);
+        console.log('tableScrollTop',this.tableScrollTop);
       }
-      if(this.lastScrollTop > this.tableScrollTop &&   cScrollTop <=this.tableScrollTop ){
+      if(this.tableScrollTop >= 0 && this.lastTableScrollTop < 0  ){
         this.loadLess();
       }
       this.lastScrollTop = cScrollTop;
+      this.lastTableScrollTop = this.tableScrollTop;
     }
     
     loadMore(){
@@ -300,7 +202,7 @@ export class DebugWindowComponent implements OnInit {
       var sliceTo = FullIndex + 100;
       sliceTo = sliceTo < this.lines2display.length  ?   sliceTo : this.lines2display.length; 
       this.partialLines2display =  this.lines2display.slice(sliceFrom,sliceTo);
-      
+      setTimeout(this.scrollToView, 1,[this,scrollTo]);
       //setTimeout(this.scrollToView, 1000,scrollTo);
     }
     loadLess(){
@@ -320,7 +222,7 @@ export class DebugWindowComponent implements OnInit {
       }else{
         this.doPartial();
       }  
-      
+      //this.scrollToView([this,scrollTo]);
       setTimeout(this.scrollToView, 1,[this,scrollTo]);
     }
     goUp(){

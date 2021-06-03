@@ -1,0 +1,108 @@
+/*#resetFilters{
+    color: white;
+    background: firebrick;
+    border: solid brown 1px;
+    border-radius: 5px;
+    padding: 5px 20px;
+    font-size: 17px;
+  }*/
+  #plus{
+    font-size: 50px !important;
+    color: green;
+  }
+  #minus{
+    font-size: 50px !important;
+    color: red;
+  }
+  #arrows{
+    position: fixed;
+    right: 10px;
+    top: 40%;
+    font-size: 100px;
+    cursor: pointer;
+    line-height: 84px;
+  }
+  .arrow {
+    cursor: pointer;
+    color:royalblue;
+    text-shadow: 3px 1px lightskyblue;
+    cursor: pointer;
+    /*width: 50px;
+    height: 50px;
+    border: 18px solid royalblue;
+    border-left: 0;
+    border-top: 0;
+    box-shadow: 2px 2px lightskyblue;
+    border-radius: 17px;
+    cursor: pointer;*/
+
+  }
+  //.arrow-up { transform: rotate(225deg); }
+  //.arrow-down { transform: rotate(45deg); }
+  .logTableContainer{
+    margin: 20px;
+  }
+  .logTable{
+    border: solid 1px blue;
+    background: lightseagreen;
+    color: white;
+  }
+  .logTable td{
+    border: none;
+    font-size: 23px;
+  }
+  .SearchBoxCon{
+    margin-bottom: 20px;
+  }
+  /*.SearchBox{
+    
+    width: 100%;
+    height: 39px;
+    border-radius: 15px;
+    border: darksalmon solid;
+  }*/
+  #myInput {
+  background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 100%; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #8ecc68; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
+}
+
+#myTable {
+  //margin: 20px;
+  width: 97%;
+  
+  border-collapse: collapse; /* Collapse borders */
+ 
+  border: 1px solid #8ecc68;
+  font-size: 18px; /* Increase font-size */
+}
+
+#myTable th, #myTable td {
+  text-align: left; /* Left-align text */
+  padding: 12px; /* Add padding */
+}
+
+#myTable tr {
+  /* Add a bottom border to all table rows */
+  border-bottom: 1px solid #8ecc68;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  /* Add a grey background color to the table header and on hover */
+  background-color: #f1f1f1;
+}
+#myTable td, #myTable th {
+  border: 1px solid #8ecc68;
+  
+}
+.isDebugtrue{
+  background: pink;;
+}
+.selected{
+  background: aquamarine;
+}
