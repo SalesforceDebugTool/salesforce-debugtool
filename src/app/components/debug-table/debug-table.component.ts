@@ -1,5 +1,5 @@
 
-import {  OnInit,Input,AfterViewInit, Component, ElementRef, ViewChild ,OnChanges,AfterContentChecked,AfterContentInit,EventEmitter} from '@angular/core';
+import { ChangeDetectionStrategy, OnInit,Input,AfterViewInit, Component, ElementRef, ViewChild ,OnChanges,AfterContentChecked,AfterContentInit,EventEmitter} from '@angular/core';
 import { Debug } from '../../models/Debug';
 import { GetLogsService } from '../../services/get-logs.service';
 import { SFAPIService } from '../../services/sf-api.service';
@@ -14,7 +14,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   
   selector: 'app-debug-table',
   templateUrl: './debug-table.component.html',
-  styleUrls: ['./debug-table.component.css']
+  styleUrls: ['./debug-table.component.css'],
+  
 })
 export class DebugTableComponent implements OnInit  ,AfterContentChecked{
   private toasterService: ToasterService;
@@ -39,6 +40,7 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
   ApplicationForm =  new FormControl();
   operationForm = new FormControl();
   @Input() GMToffSet :number;
+  @Input() show :any;
   @ViewChild('searchInFilesInput') searchInFilesInput: ElementRef;
   globalSearchValue:string;
   DescOrder: boolean;
@@ -59,7 +61,6 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
   showsearchInFilesSpinner:boolean;
   isSelectAll:boolean;
   Debugs:Debug[];
-  @Input() DebugsFromParent:Debug[];
   constructor(private SFAPIService:SFAPIService,toasterService: ToasterService ) { 
     
     this.toasterService = toasterService;
@@ -68,10 +69,6 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
   }
 
   ngOnInit(): void {
-    if(this.DebugsFromParent!= undefined){
-      this.Debugs =this.DebugsFromParent;
-    }
-    console.log('DebugTableComponent ngOnInit this.Debugs',this.Debugs);
     /*this.selectedMoments = [
       new Date(2018, 1, 12, 10, 30),
         new Date(2018, 3, 21, 20, 30)

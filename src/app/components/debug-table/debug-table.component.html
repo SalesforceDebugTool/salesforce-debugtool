@@ -1,7 +1,7 @@
 
 
 
-<div *ngIf="Debugs && Debugs.length > 0; else elseBlock">
+<div *ngIf="Debugs && Debugs.length > 0 ; else elseBlock">
     <toaster-container [toasterconfig]="config"></toaster-container>     
     <!--<ul *ngFor="let traceFlag of tracFlags">
         <li>{{traceFlag.TracedEntity.Name}}</li>
@@ -142,7 +142,7 @@
       
       <br/>
       <br/>
-        
+      <!--<cdk-virtual-scroll-viewport itemSize="1">-->
       <table>
                 <thead>
                     <tr>
@@ -162,15 +162,22 @@
                         <th>Operation</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <ng-container  *ngFor="let Debug of Debugs">
+                <tbody >
+                   <ng-container  *ngFor="let Debug of Debugs">
                       
                         <tr  app-debug-item    [GMToffSet]="GMToffSet" (onSelectedOne)="selectOneHandler()" (onItemDeleted)="deleteOneNotify($event)" *ngIf="  Debug['machFilters'] && (!hideUnmatched || Debug['match']  || Debug['textFileStatuse'] !== 'done')" [credentials]="credentials" [logDisplayCount]="logDisplayCount" [hideUnmatched]='hideUnmatched' [Debug]="Debug"></tr>
                     </ng-container >
+                    
+
+                       <!-- <ng-container *cdkVirtualFor="let Debug of Debugs " >
+                      
+                            <tr  app-debug-item    [GMToffSet]="GMToffSet" (onSelectedOne)="selectOneHandler()" (onItemDeleted)="deleteOneNotify($event)" *ngIf="  Debug['machFilters'] && (!hideUnmatched || Debug['match']  || Debug['textFileStatuse'] !== 'done')" [credentials]="credentials" [logDisplayCount]="logDisplayCount" [hideUnmatched]='hideUnmatched' [Debug]="Debug"></tr>
+                        </ng-container >-->
+                     
                        
                 </tbody>
             </table>
-   
+           <!-- </cdk-virtual-scroll-viewport>-->
 
 </div>
 <ng-template #elseBlock>

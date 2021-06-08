@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {ScrollingModule} from '@angular/cdk/scrolling'
 //import { MyCMPComponent } from './components/my-cmp/my-cmp.component';
 import { TraceFlagItemComponent } from './components/trace-flag-item/trace-flag-item.component';
 import {MatFormFieldModule,} from '@angular/material/form-field';
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
     LogTabComponent
   ],
   imports: [
+    ScrollingModule,
     MatExpansionModule,
     MatListModule,
     Ng2SearchPipeModule,

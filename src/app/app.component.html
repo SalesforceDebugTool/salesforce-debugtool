@@ -44,11 +44,11 @@
      
       <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
         <mat-tab label="Trace Flags">
-           <app-trace-flag-table  *ngIf="0==selected.value" [GMToffSet]="GMToffSet" [credentials]="credentials" ></app-trace-flag-table>
+           <app-trace-flag-table   [GMToffSet]="GMToffSet" [credentials]="credentials" ></app-trace-flag-table>
            <!--<app-trace-flag-table  *ngIf="0==selected.value" [GMToffSet]="GMToffSet" [credentials]="credentials" ></app-trace-flag-table> --> 
         </mat-tab>
         <mat-tab label="Debug Logs">
-           <app-debug-table *ngIf="1==selected.value"  [DebugsFromParent]="Debugs" [GMToffSet]="GMToffSet" [credentials]="credentials"></app-debug-table>
+           <app-debug-table    [show]="1==selected.value" [GMToffSet]="GMToffSet" [credentials]="credentials"></app-debug-table>
         </mat-tab>
         <template  *ngFor="let tab of logTabs; let index = index" >
           <mat-tab [label]="tab.Id">
@@ -58,7 +58,7 @@
             
             </ng-template>
             <!--<app-debug-window  *ngIf="index+2==selected.value" [Debug]='tab'></app-debug-window>-->
-            <app-log-tab  *ngIf="index+2==selected.value" [Debug]='tab'></app-log-tab>
+            <app-log-tab   [Debug]='tab'></app-log-tab>
           </mat-tab>
         </template>
       </mat-tab-group>
