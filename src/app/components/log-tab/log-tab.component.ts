@@ -26,7 +26,7 @@ export class LogTabComponent implements OnInit {
   tableFontSize='initial';
   @Input() Debug:Debug;
 
-
+  insideGoDown = false;
   setscrol = false;
   debugOnly : boolean;
   searchText;
@@ -192,16 +192,25 @@ export class LogTabComponent implements OnInit {
     }
     
     loadMore(){
+      console.log('loadMore insideGoDown:',this.insideGoDown);
+      if(this.insideGoDown){
+        
+        return false;
+      }
+       
       console.log('loadMore');
       
       
       var partialIndex = this.partialLines2display[this.partialLines2display.length-1].index;
       var FullIndex = this.lines2display.map(line => line.index).indexOf(partialIndex);
-      if(this.lines[this.lines.length-1].index ==  partialIndex)
-        return; 
+      if(this.lines2display[this.lines2display.length-1].index ==  partialIndex)
+        return false;
       this.disableScroll();
       console.log('FullIndex',FullIndex);
-      var scrollTo = this.lines2display[FullIndex-12].index;
+      if(this.lines2display.length>12)
+        var scrollTo = this.lines2display[FullIndex-12].index;
+      else 
+        var scrollTo = this.lines2display[FullIndex-1].index; 
       var sliceFrom = FullIndex -100;
       sliceFrom = sliceFrom > 0 ?   sliceFrom : 0; 
       var sliceTo = FullIndex + 100;
@@ -212,7 +221,7 @@ export class LogTabComponent implements OnInit {
     }
     loadLess(){
       if(this.partialLines2display[0].index == this.lines2display[0].index)
-        return;
+        return false;
       this.disableScroll(); 
       console.log('loadLess');
       var partialIndex = this.partialLines2display[0].index;
@@ -236,11 +245,22 @@ export class LogTabComponent implements OnInit {
       setTimeout(this.thisWindow.scrollTo(0,0), 100);
     }
     goDown(){
+      this.insideGoDown = true;
+      console.log('goDown');
       this.disableScroll(); 
       this.partialLines2display =  this.lines2display.slice(this.lines2display.length-200,this.lines2display.length -1);
        //setTimeout(this.thisWindow.scrollTo(0,this.doc.body.scrollHeight), 1000);
        var scrollTo =  this.partialLines2display[ this.partialLines2display.length-1].index
-       setTimeout(()=>{this.scrollToView([this,scrollTo]);},100);
+       var that = this;
+       console.log('goDown bf scrollTo',that.doc.body.scrollHeight);
+       setTimeout(()=>{
+        //this.scrollToView([this,scrollTo]);
+        this.thisWindow.scrollTo(0,this.doc.body.scrollHeight);
+        console.log('goDown bf scrollTo',that.doc.body.scrollHeight);
+        this.enableScroll();
+        setTimeout(()=>{this.insideGoDown = false; } ,300);
+       },300);
+       
     }  
     doPartial(){
       this.partialLines2display =  this.lines2display.slice(0,200);
@@ -251,8 +271,13 @@ export class LogTabComponent implements OnInit {
       var elId = arr[1];
       var that = arr[0];
       console.log('scrollToView elId',elId);
-      var elmnt = that.doc.getElementById(elId);
-      elmnt.scrollIntoView();
+      try {
+        var elmnt = that.doc.getElementById(elId);
+        elmnt.scrollIntoView();
+      } catch (error) {
+        
+      }
+      
       that.enableScroll();
     }
     addSearchBox(){
