@@ -30,6 +30,7 @@ export class DebugTableComponent implements OnInit  ,AfterContentChecked{
   public selectedMoments = [];
   public GreaterThanDate = new Date();
   public EarlierThanDate =  new Date();
+  OpenLogAsNewWindow = false;
   allLogsAmount;
   selectedDateFilter ='None';
   selectedLength:number;

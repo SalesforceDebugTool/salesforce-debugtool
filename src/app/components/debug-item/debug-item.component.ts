@@ -17,7 +17,7 @@ export class DebugItemComponent implements OnInit, OnDestroy  {
   @Output() onSelectedOne = new EventEmitter<boolean>();
   message:any;
   subscription: Subscription;
-  
+  @Input() OpenLogAsNewWindow :any;
 
   @Input() Debug:Debug;
   @Input() credentials:any;
@@ -51,7 +51,7 @@ export class DebugItemComponent implements OnInit, OnDestroy  {
     console.log('log id',this.Debug.Id);
     console.log('this.openNewLogTab',this.openNewLogTab);
     if(this.Debug['textFile']){
-      this.data.changeMessage(this.Debug);
+      if(!this.OpenLogAsNewWindow)this.data.changeMessage(this.Debug);
       console.log('has Text file!');
       if(this.openNewLogTab ==true){
         this.openNewLogTab =false;
@@ -59,7 +59,7 @@ export class DebugItemComponent implements OnInit, OnDestroy  {
         setTimeout(function(){that.openNewLogTab = true;} , 10);
       }else
         this.openNewLogTab =true;
-        this.data.changeMessage(this.Debug);
+        if(!this.OpenLogAsNewWindow)this.data.changeMessage(this.Debug);
     }
     else{
       this.Debug['textFileStatuse'] = 'downloading';
@@ -68,7 +68,7 @@ export class DebugItemComponent implements OnInit, OnDestroy  {
         this.Debug['textFile'] = log;
         this.Debug['textFileStatuse'] = 'done';
         this.openNewLogTab =true;
-        this.data.changeMessage(this.Debug);
+        if(!this.OpenLogAsNewWindow)this.data.changeMessage(this.Debug);
         //this.Debugs = logs.records;
       });
     }

@@ -15,9 +15,15 @@
         <mat-spinner  *ngIf="showRefrershSpinner" [diameter]="20"></mat-spinner>
     </h2>
     <p>Now Displaying : {{logDisplayCount}}<span *ngIf="selectedLength>0"> , Selected: {{selectedLength}} </span></p>
-   
-    
-          
+    <mat-slide-toggle (change)="OpenLogAsNewWindow = !OpenLogAsNewWindow" >Open log as new window</mat-slide-toggle>
+    &nbsp;
+    <span class="tooltip ">
+        <span class="tooltip info-mark" >&#9432;</span>
+        
+        <span class="tooltiptext ">By default, the log will be opened as a tab. to increase search in log performances, Switch to "open as a new window"</span>
+    </span>
+    <br/>
+    <br/>     
     <div  class="spinner-wrapper">
         <mat-spinner *ngIf="showsearchInFilesSpinner" [diameter]="20"></mat-spinner>
         
@@ -165,7 +171,7 @@
                 <tbody >
                    <ng-container  *ngFor="let Debug of Debugs">
                       
-                        <tr  app-debug-item    [GMToffSet]="GMToffSet" (onSelectedOne)="selectOneHandler()" (onItemDeleted)="deleteOneNotify($event)" *ngIf="  Debug['machFilters'] && (!hideUnmatched || Debug['match']  || Debug['textFileStatuse'] !== 'done')" [credentials]="credentials" [logDisplayCount]="logDisplayCount" [hideUnmatched]='hideUnmatched' [Debug]="Debug"></tr>
+                        <tr  app-debug-item   [OpenLogAsNewWindow]="OpenLogAsNewWindow" [GMToffSet]="GMToffSet" (onSelectedOne)="selectOneHandler()" (onItemDeleted)="deleteOneNotify($event)" *ngIf="  Debug['machFilters'] && (!hideUnmatched || Debug['match']  || Debug['textFileStatuse'] !== 'done')" [credentials]="credentials" [logDisplayCount]="logDisplayCount" [hideUnmatched]='hideUnmatched' [Debug]="Debug"></tr>
                     </ng-container >
                     
 

@@ -14,13 +14,14 @@ import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
   styleUrls: ['./log-tab.component.css']
 })
 export class LogTabComponent implements OnInit {
+  blurTable='';
   tableScrollTop;
   lastScrollTop = 0;
   lastTableScrollTop = 0;
   thisWindow;
   filterBy = 'All'
   panelOpenState = false;
-  
+
   scrollScript : SafeHtml;
   tableFontSize='initial';
   @Input() Debug:Debug;
@@ -191,12 +192,12 @@ export class LogTabComponent implements OnInit {
     
     loadMore(){
       console.log('loadMore');
-     
+      this.disableScroll();
       
       var partialIndex = this.partialLines2display[this.partialLines2display.length-1].index;
       var FullIndex = this.lines2display.map(line => line.index).indexOf(partialIndex);
       console.log('FullIndex',FullIndex);
-      var scrollTo = this.lines2display[FullIndex+5].index;
+      var scrollTo = this.lines2display[FullIndex-5].index;
       var sliceFrom = FullIndex -100;
       sliceFrom = sliceFrom > 0 ?   sliceFrom : 0; 
       var sliceTo = FullIndex + 100;
@@ -208,6 +209,7 @@ export class LogTabComponent implements OnInit {
     loadLess(){
       if(this.partialLines2display[0].index == this.lines2display[0].index)
         return;
+      this.disableScroll(); 
       console.log('loadLess');
       var partialIndex = this.partialLines2display[0].index;
       var FullIndex = this.lines2display.map(line => line.index).indexOf(partialIndex);
@@ -235,6 +237,7 @@ export class LogTabComponent implements OnInit {
     }  
     doPartial(){
       this.partialLines2display =  this.lines2display.slice(0,200);
+      this.enableScroll();
       
     }
     scrollToView(arr){
@@ -243,6 +246,7 @@ export class LogTabComponent implements OnInit {
       console.log('scrollToView elId',elId);
       var elmnt = that.doc.getElementById(elId);
       elmnt.scrollIntoView();
+      that.enableScroll();
     }
     addSearchBox(){
       this.SearchValues.push('');
@@ -316,6 +320,14 @@ export class LogTabComponent implements OnInit {
     }
     fontSizeChanged(){
       console.log(this.tableFontSize)
+    }
+    disableScroll(){
+      this.blurTable = 'blurTable'; 
+      this.doc.body.style.overflow = 'hidden';
+    }
+    enableScroll(){
+      this.blurTable = ''; 
+      this.doc.body.style.overflow = 'inherit';
     }
    
 }
