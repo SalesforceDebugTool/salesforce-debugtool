@@ -197,7 +197,7 @@ export class LogTabComponent implements OnInit {
       var partialIndex = this.partialLines2display[this.partialLines2display.length-1].index;
       var FullIndex = this.lines2display.map(line => line.index).indexOf(partialIndex);
       console.log('FullIndex',FullIndex);
-      var scrollTo = this.lines2display[FullIndex-5].index;
+      var scrollTo = this.lines2display[FullIndex-12].index;
       var sliceFrom = FullIndex -100;
       sliceFrom = sliceFrom > 0 ?   sliceFrom : 0; 
       var sliceTo = FullIndex + 100;
@@ -324,6 +324,7 @@ export class LogTabComponent implements OnInit {
     disableScroll(){
       this.blurTable = 'blurTable'; 
       this.doc.body.style.overflow = 'hidden';
+      setTimeout(()=>{this.doc.body.style.overflow = 'inherit';}, 3000);
     }
     enableScroll(){
       this.blurTable = ''; 
