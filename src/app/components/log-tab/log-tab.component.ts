@@ -176,6 +176,7 @@ export class LogTabComponent implements OnInit {
       //console.log('scrollY',event.path[1].frames.scrollY);
       //console.log('this.doc.body.scrollTop',this.doc.body.scrollTop); 
       if(this.lastScrollTop < cScrollTop && cScrollTop >=  (this.doc.body.scrollHeight - this.doc.body.clientHeight)){
+        
         this.loadMore();
         console.log('lastScrollTop',this.lastScrollTop);
         console.log('cScrollTop',cScrollTop);
@@ -192,10 +193,13 @@ export class LogTabComponent implements OnInit {
     
     loadMore(){
       console.log('loadMore');
-      this.disableScroll();
+      
       
       var partialIndex = this.partialLines2display[this.partialLines2display.length-1].index;
       var FullIndex = this.lines2display.map(line => line.index).indexOf(partialIndex);
+      if(this.lines[this.lines.length-1].index ==  partialIndex)
+        return; 
+      this.disableScroll();
       console.log('FullIndex',FullIndex);
       var scrollTo = this.lines2display[FullIndex-12].index;
       var sliceFrom = FullIndex -100;
@@ -232,8 +236,11 @@ export class LogTabComponent implements OnInit {
       setTimeout(this.thisWindow.scrollTo(0,0), 100);
     }
     goDown(){
+      this.disableScroll(); 
       this.partialLines2display =  this.lines2display.slice(this.lines2display.length-200,this.lines2display.length -1);
-       setTimeout(this.thisWindow.scrollTo(0,this.doc.body.scrollHeight), 1000);
+       //setTimeout(this.thisWindow.scrollTo(0,this.doc.body.scrollHeight), 1000);
+       var scrollTo =  this.partialLines2display[ this.partialLines2display.length-1].index
+       setTimeout(()=>{this.scrollToView([this,scrollTo]);},100);
     }  
     doPartial(){
       this.partialLines2display =  this.lines2display.slice(0,200);
